@@ -4,27 +4,40 @@
   <title>Carson Owen Portfolio</title>
   <style>
     body {
-      background-image: url("images/fez-images/scene12.png");
-      background-attachment: fixed;
-      background-size: cover;
+      background-image: url("images/fez-images/scene13.png"), url("images/fez-images/scene13cont.png");
+      background-position: top, bottom;
+      background-attachment: local, local;
+      background-repeat: no-repeat, repeat-y;
+      background-size: contain, contain;
       color: #FFFFFF;
-      background-attachment: scroll;
     }
-  </style>
-  <style>
-    #button1 {
+    #main_content {
+      width: 40%;
+      height: 800px;
+      color: #FFFFFF;
+      background: #d3d3d3;
+      opacity: .5;
+      padding: 50px;
+      margin-top: 20px;
+      margin-left: auto;
+      margin-right: auto; 
+      border: 2px solid black;
+      text-align: center;
+    }
+    /* #gradient {
+      background-image: linear-gradient(#66000000,#000000);
       position: relative;
-      width: 100px;
-      height: 100px;
-      top: 100px;
-      left: 100px;
-    }
+      width: 20%;
+      height: 1000px;
+      margin: 0px;
+      border: 5px solid #d3d3d3;
+    } */
   </style>
 </head>
 <body>
-  <h1>CARSON OWEN</h1>
-  <p>Welcome to my website!</p>
-  <img scr="images/button.png" alt="button">
+  <div id="main_content">
+    <h>CARSON OWEN</h>
+  </div>
 </body>
 
 </html>
