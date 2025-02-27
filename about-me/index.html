@@ -12,18 +12,17 @@
   </div>
   <div class="wrapper">
     <div class="lcontent">
+      <p style="font-size: 40px; margin: 0; margin-bottom: 35px;"><b>about me</b></p>
       <b>my background</b> <br>
-      <p class="p2">originially from birmingham, alabama, i am currently studying aerospace engineering at auburn university.</p> <br>
-      <b>what i do for work</b>
-      <p class="p2">apart from class, i work remote part time as a technical modeling and simulation intern with dynetics, inc., in huntsville, alabama.</p> <br>
-      <b>what i do for fun</b>
-      <p class="p2">i enjoy staying active. if i am not working or studying, i am most likely running, playing ultimate, or in the gym.</p> <br>
-      <b>my work interests</b>
-      <p class="p2">my interests include aerodynamics, control systems, flight dynamics, and modeling and simulation.</p> <br>
-      <b>my other interests</b>
-      <p class="p2">outside of aerospace, i like keeping up with auburn sports, toying with my car, and traveling/geography.</p> <br>
-      <b>contact me</b>
-      <p class="p2">email: cowen1053 AT gmail DOT com</p>
+      <p class="p2">originially from birmingham, alabama, i’ve since traded the magic city for the plains, where i’m studying aerospace engineering at auburn university.</p> <br>
+      <b>what i do</b>
+      <p class="p2">outside of class, i work remote part time as a technical modeling and simulation intern with dynetics, inc.</p> <br>
+      <b>what keeps me moving</b>
+      <p class="p2">if i'm not at my desk, i'm probably moving—running, playing ultimate, or hitting the gym.</p> <br>
+      <b>what drives me</b>
+      <p class="p2">how things move through the air, how they're precisely controlled, and how we simulate it all before ever leaving the ground.</p> <br>
+      <b>beyond aerospace</b>
+      <p class="p2">life isn't just about the grind. i like keeping up with auburn sports, messing with my car, and exploring new places.</p> <br>
     </div>
     <div class="rcontent">
       <img src="../images/about-me/nycwtcpersonal.JPG" alt="photo 6" class="bouncy-img">
@@ -90,19 +89,19 @@
             let vy = Math.sin(angle) * initialSpeed;
             velocities.set(img, { vx, vy });
 
-            document.addEventListener("mousemove", function (event) {
-                let imgRect = img.getBoundingClientRect();
-                let dx = imgRect.left + imgRect.width / 2 - event.clientX;
-                let dy = imgRect.top + imgRect.height / 2 - event.clientY;
-                let distance = Math.sqrt(dx * dx + dy * dy);
+            // document.addEventListener("mousemove", function (event) {
+            //     let imgRect = img.getBoundingClientRect();
+            //     let dx = imgRect.left + imgRect.width / 2 - event.clientX;
+            //     let dy = imgRect.top + imgRect.height / 2 - event.clientY;
+            //     let distance = Math.sqrt(dx * dx + dy * dy);
 
-                if (distance < 100) {
-                    let force = repulsionStrength / (distance * distance);
-                    let angle = Math.atan2(dy, dx);
-                    velocities.get(img).vx += Math.cos(angle) * force;
-                    velocities.get(img).vy += Math.sin(angle) * force;
-                }
-            });
+            //     if (distance < 100) {
+            //         let force = repulsionStrength / (distance * distance);
+            //         let angle = Math.atan2(dy, dx);
+            //         velocities.get(img).vx += Math.cos(angle) * force;
+            //         velocities.get(img).vy += Math.sin(angle) * force;
+            //     }
+            // });
 
             function moveImage() {
                 let velocity = velocities.get(img);

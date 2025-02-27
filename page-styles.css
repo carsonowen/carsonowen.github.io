@@ -35,31 +35,43 @@ body {
     font-size: 22px;
     font-family: Georgia;
     color: #5e5558;
-    width: 40%;
+    width: 30%;
     float: left;
     margin-left: auto;
     margin-right: auto;
   }
   .rcontent {
     font-size: 22px;
-    font-family: Georgia;
+    font-family: Verdana;
     color: black;
-    margin-left: 41%;
+    margin-left: 33%;
     margin-right: auto;
     height: 100%;
     position: relative;
   }
   .wrapper {
-    width: 76%;
+    width: 66%;
     margin: auto;
     height: 80vh;
     overflow: hidden;
+    border: 1.5px solid black;
+    border-radius: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
   .bouncy-img {
     width: 350px;
     height: auto;
     position: absolute;
     transition: transform 0.1s linear;
+    transition: filter 0.3s ease-in-out;
     user-select: none;
     border-radius: 15px;
+    filter: grayscale(100%)
+  }
+
+  .bouncy-img:hover {
+    filter: grayscale(0%);
   }
