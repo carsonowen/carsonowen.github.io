@@ -1,0 +1,65 @@
+body {
+    background-image: url("images/tiles/marble2.gif");
+    background-attachment: scroll;
+    background-repeat: repeat;
+    color: #FFFFFF;
+    height: 100%;
+  }
+  .title {
+    font-family: Georgia;
+    color: #8a3d53;
+    font-size: 60px;
+    text-align: center;
+    margin-bottom: 0px;
+    margin-top: 20px;
+  }
+  #line1 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+  }
+  .p1 {
+    font-family: Georgia;
+    color: black;
+    font-size: 10px;
+    margin-top: 0px;
+  }
+  .p2 {
+    font-family: Georgia;
+    color: #5e5558;
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  .lcontent {
+    font-size: 22px;
+    font-family: Georgia;
+    color: #5e5558;
+    width: 40%;
+    float: left;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .rcontent {
+    font-size: 22px;
+    font-family: Georgia;
+    color: black;
+    margin-left: 41%;
+    margin-right: auto;
+    height: 100%;
+    position: relative;
+  }
+  .wrapper {
+    width: 76%;
+    margin: auto;
+    height: 80vh;
+    overflow: hidden;
+  }
+  .bouncy-img {
+    width: 350px;
+    height: auto;
+    position: absolute;
+    transition: transform 0.1s linear;
+    user-select: none;
+    border-radius: 15px;
+  }

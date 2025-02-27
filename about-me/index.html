@@ -2,14 +2,155 @@
 <html>
 <head>
   <title>about me</title>
-  <link rel="stylesheet" href="../styles.css" type="text/css">
+  <link rel="stylesheet" href="../page-styles.css" type="text/css">
   <link rel="icon" type="image/x-icon" href="../images/fez-images/favicon.ico">
 </head>
 <body>
   <div>
-    <h1 class="title" style="margin-top: 20px;">carson owen</h1>
+    <h1 class="title">carson owen</h1>
     <img src="../images/lines/rocket.gif" alt="line" id="line1"/>
   </div>
+  <div class="wrapper">
+    <div class="lcontent">
+      <b>my background</b> <br>
+      <p class="p2">originially from birmingham, alabama, i am currently studying aerospace engineering at auburn university.</p> <br>
+      <b>what i do for work</b>
+      <p class="p2">apart from class, i work remote part time as a technical modeling and simulation intern with dynetics, inc., in huntsville, alabama.</p> <br>
+      <b>what i do for fun</b>
+      <p class="p2">i enjoy staying active. if i am not working or studying, i am most likely running, playing ultimate, or in the gym.</p> <br>
+      <b>my work interests</b>
+      <p class="p2">my interests include aerodynamics, control systems, flight dynamics, and modeling and simulation.</p> <br>
+      <b>my other interests</b>
+      <p class="p2">outside of aerospace, i like keeping up with auburn sports, toying with my car, and traveling/geography.</p> <br>
+    </div>
+    <div class="rcontent">
+      <img src="../images/about-me/nycwtcpersonal.JPG" alt="photo 6" class="bouncy-img">
+      <img src="../images/about-me/frsquare1.JPG" alt="photo 1" class="bouncy-img">
+      <img src="../images/about-me/frsquare2.JPG" alt="photo 2" class="bouncy-img">
+      <!--<img src="../images/about-me/frsquare3.JPG" alt="photo 3" class="bouncy-img">-->
+      <!--<img src="../images/about-me/frsquare4.JPG" alt="photo 4" class="bouncy-img">-->
+      <img src="../images/about-me/sponge.JPG" alt="photo 5" class="bouncy-img">
+      
+    </div>
+  </div>
+
+  <script>
+    // script for bouncy images ... ChatGPT helped me write this
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const images = document.querySelectorAll(".bouncy-img");
+        const container = document.querySelector(".rcontent");
+
+        const damping = 0.98;
+        const repulsionStrength = 5000;
+        const collisionRepulsion = 10;
+        const minSpawnDistance = 50;
+        const initialSpeed = 2;
+
+        let velocities = new Map();
+        let positions = [];
+
+        function getBoundary() {
+            return container.getBoundingClientRect();
+        }
+
+        function isOverlapping(newX, newY, newWidth, newHeight) {
+            return positions.some(pos => {
+                return (
+                    newX < pos.x + pos.width &&
+                    newX + newWidth > pos.x &&
+                    newY < pos.y + pos.height &&
+                    newY + newHeight > pos.y
+                );
+            });
+        }
+
+        images.forEach(img => {
+            let boundary = getBoundary();
+            let imgWidth = img.width;
+            let imgHeight = img.height;
+            let x, y;
+
+            let attempts = 0;
+            do {
+                x = Math.random() * (boundary.width - imgWidth);
+                y = Math.random() * (boundary.height - imgHeight);
+                attempts++;
+            } while (isOverlapping(x, y, imgWidth, imgHeight) && attempts < 100);
+
+            positions.push({ x, y, width: imgWidth, height: imgHeight });
+
+            img.style.left = x + "px";
+            img.style.top = y + "px";
+
+            let angle = Math.random() * 2 * Math.PI;
+            let vx = Math.cos(angle) * initialSpeed;
+            let vy = Math.sin(angle) * initialSpeed;
+            velocities.set(img, { vx, vy });
+
+            document.addEventListener("mousemove", function (event) {
+                let imgRect = img.getBoundingClientRect();
+                let dx = imgRect.left + imgRect.width / 2 - event.clientX;
+                let dy = imgRect.top + imgRect.height / 2 - event.clientY;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 100) {
+                    let force = repulsionStrength / (distance * distance);
+                    let angle = Math.atan2(dy, dx);
+                    velocities.get(img).vx += Math.cos(angle) * force;
+                    velocities.get(img).vy += Math.sin(angle) * force;
+                }
+            });
+
+            function moveImage() {
+                let velocity = velocities.get(img);
+                velocity.vx *= damping;
+                velocity.vy *= damping;
+
+                let boundary = getBoundary();
+                let newX = parseFloat(img.style.left) + velocity.vx;
+                let newY = parseFloat(img.style.top) + velocity.vy;
+
+                images.forEach(otherImg => {
+                    if (otherImg === img) return;
+                    
+                    let imgRect = img.getBoundingClientRect();
+                    let otherRect = otherImg.getBoundingClientRect();
+                    let dx = otherRect.left - imgRect.left;
+                    let dy = otherRect.top - imgRect.top;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    let minDist = (imgRect.width + otherRect.width) / 2;
+
+                    if (distance < minDist) {
+                        let angle = Math.atan2(dy, dx);
+                        let force = collisionRepulsion / (distance + 1);
+                        velocity.vx -= Math.cos(angle) * force;
+                        velocity.vy -= Math.sin(angle) * force;
+                    }
+                });
+
+                if (newX < 0 || newX > boundary.width - img.width) {
+                    velocity.vx *= -0.7;
+                    newX = Math.max(0, Math.min(boundary.width - img.width, newX));
+                }
+                if (newY < 0 || newY > boundary.height - img.height) {
+                    velocity.vy *= -0.7;
+                    newY = Math.max(0, Math.min(boundary.height - img.height, newY));
+                }
+
+                img.style.left = newX + "px";
+                img.style.top = newY + "px";
+
+                requestAnimationFrame(moveImage);
+            }
+
+            moveImage();
+        });
+    });
+  </script>
+
 </body>
+
+
 
 </html>
