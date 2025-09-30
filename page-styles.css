@@ -5,6 +5,17 @@ body {
     color: #FFFFFF;
     height: 100%;
   }
+
+  .maincontainer {
+    background-color: rgba(0, 0, 0, 0.1);
+    background-blend-mode: multiply;
+    max-width: 1000px;
+    width: 100%;
+    margin: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
   .title {
     font-family: Georgia;
     color: #8a3d53;
@@ -26,43 +37,54 @@ body {
     margin-top: 0px;
   }
   .p2 {
-    font-family: Georgia;
+    font-family: Cambria;
     color: #5e5558;
     font-size: 16px;
     margin-top: 5px;
+    text-align: justify;
   }
+
+  .wrapper {
+    width: 100%;
+    height: 67vh;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
   .lcontent {
     font-size: 22px;
-    font-family: Georgia;
+    font-family: 'Anton';
     color: #5e5558;
     width: 30%;
     float: left;
-    margin-left: auto;
-    margin-right: auto;
+    border-right: 1.5px solid #5e5558;
+    box-sizing: border-box;
+    padding-right: 15px;
+    height: 100%;
   }
+
   .rcontent {
     font-size: 22px;
-    font-family: Verdana;
+    font-family: Cambria;
     color: black;
-    margin-left: 33%;
-    margin-right: auto;
+    float: left;
+    width: 70%;
+    box-sizing: border-box;
     height: 100%;
     position: relative;
-  }
-  .wrapper {
-    width: 66%;
-    margin: auto;
-    height: 80vh;
     overflow: hidden;
-    border: 1.5px solid black;
-    border-radius: 15px;
     padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 5px;
-    padding-bottom: 5px;
   }
+
+  .rcontent-in {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
   .bouncy-img {
-    width: 350px;
+    width: 300px;
     height: auto;
     position: absolute;
     transition: transform 0.1s linear;
@@ -74,4 +96,11 @@ body {
 
   .bouncy-img:hover {
     filter: grayscale(0%);
+  }
+
+  .p0 {
+    font-family: 'Anton';
+    color: #5e5558;
+    font-size: 22px;
+    margin: 0;
   }
