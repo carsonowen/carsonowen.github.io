@@ -7,8 +7,8 @@ body {
   }
 
   .maincontainer {
-    background-color: rgba(0, 0, 0, 0.1);
-    background-blend-mode: multiply;
+    /* background-color: rgba(0, 0, 0, 0.1);
+    background-blend-mode: multiply; */
     max-width: 1000px;
     width: 100%;
     margin: auto;
@@ -22,13 +22,13 @@ body {
     font-size: 60px;
     text-align: center;
     margin-bottom: 0px;
-    margin-top: 20px;
+    margin-top: 40px;
   }
   #line1 {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   .p1 {
     font-family: Georgia;
@@ -42,6 +42,16 @@ body {
     font-size: 16px;
     margin-top: 5px;
     text-align: justify;
+  }
+  .nav-style {
+    text-decoration: none;
+    font-family: Georgia;
+    color: #484848;
+    font-size: 16px;
+    margin-top: 20px;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 10px;
   }
 
   .wrapper {
@@ -104,3 +114,27 @@ body {
     font-size: 22px;
     margin: 0;
   }
+  
+  .rocket {
+    filter: grayscale(100%);
+  }
+
+a:link {
+  text-decoration: none;
+  color: inherit
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit
+}
+
+a:hover {
+  text-decoration: underline;
+  color: inherit
+}
+
+a:active {
+  text-decoration: underline;
+  color: inherit
+}
