@@ -1,0 +1,498 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>travel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../page-styles.css" type="text/css">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../images/fez-images/favicon.ico">
+  <style>
+    /* ── world selection cards ── */
+
+    #world-view {
+      display: flex;
+      gap: 18px;
+      margin: 20px 0 28px;
+    }
+
+    .region-btn {
+      flex: 1;
+      background: rgba(255,255,255,0.82);
+      border: 1px dashed #8a3d53;
+      padding: 44px 20px;
+      text-align: center;
+      cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 22px;
+      color: #484848;
+      user-select: none;
+      transition: background 0.18s, color 0.18s;
+    }
+
+    .region-btn:hover {
+      background: rgba(138,61,83,0.09);
+      color: #8a3d53;
+    }
+
+    .region-btn-sub {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #8a3d53;
+      margin-bottom: 12px;
+    }
+
+    /* ── map view ── */
+
+    #map-view {
+      display: none;
+      flex-direction: column;
+      margin-bottom: 40px;
+    }
+
+    #map-view.active {
+      display: flex;
+    }
+
+    #back-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px;
+      color: #8a3d53;
+      padding: 0;
+      margin-bottom: 10px;
+      display: inline-block;
+      letter-spacing: 0.4px;
+    }
+
+    #back-btn:hover { text-decoration: underline; }
+
+    #map-wrap {
+      position: relative;
+      width: 100%;
+      background: rgba(255,255,255,0.82);
+      border: 1px dashed #5e5558;
+    }
+
+    #map-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── SVG path styling ── */
+
+    .rp {
+      stroke: #f0eded;
+      stroke-width: 0.6;
+      transition: fill 0.14s;
+    }
+
+    .rp-visited {
+      fill: #8a3d53;
+      cursor: pointer;
+    }
+
+    .rp-visited:hover { fill: #a8496b; }
+    .rp-visited.rp-active { fill: #5c2438; }
+
+    .rp-unvisited {
+      fill: #c4b5b9;
+      cursor: default;
+    }
+
+    /* ── hover tooltip ── */
+
+    #tip {
+      position: absolute;
+      background: rgba(255,255,255,0.96);
+      border: 1px dashed #8a3d53;
+      padding: 3px 9px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 11px;
+      color: #484848;
+      pointer-events: none;
+      display: none;
+      white-space: nowrap;
+    }
+
+    /* ── blog panel ── */
+
+    #blog-panel {
+      display: none;
+      gap: 22px;
+      margin-top: 14px;
+      background: rgba(255,255,255,0.82);
+      border: 1px dashed #5e5558;
+      padding: 20px 22px;
+    }
+
+    #blog-panel.visible { display: flex; }
+
+    #blog-left {
+      flex: 3;
+      min-width: 0;
+    }
+
+    #blog-title {
+      font-family: 'Courier New', Courier, monospace;
+      color: #8a3d53;
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0 0 10px;
+    }
+
+    #blog-body {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      color: #484848;
+      line-height: 1.62;
+      margin: 0;
+    }
+
+    #photo-grid {
+      flex: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      align-content: start;
+    }
+
+    .pslot {
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: #e0d8da;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pslot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .pslot.empty {
+      border: 1px dashed #c4b5b9;
+    }
+
+    .pslot.empty::after {
+      content: '+';
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 20px;
+      color: #c4b5b9;
+    }
+
+    /* ── legend ── */
+
+    #map-legend {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      margin-top: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 11px;
+      color: #484848;
+    }
+
+    .legend-dot {
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="maincontainer">
+    <nav class="nav-style">
+      <a href="../">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../about-me">about me</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../school-projects">school projects</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../personal-projects">personal projects</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../media">media</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../misc">misc</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../contact-me">contact me</a>
+    </nav>
+
+    <div>
+      <h1 class="title">travel</h1>
+      <img src="../images/lines/rocket.gif" class="rocket" alt="line" id="line1"/>
+    </div>
+
+    <!-- world region selection -->
+    <div id="world-view">
+      <div class="region-btn" id="btn-us">
+        <span class="region-btn-sub">click to explore</span>
+        united states
+      </div>
+      <div class="region-btn" id="btn-eu">
+        <span class="region-btn-sub">click to explore</span>
+        europe
+      </div>
+    </div>
+
+    <!-- map + blog -->
+    <div id="map-view">
+      <button id="back-btn">&#8592; back to world</button>
+      <div id="map-wrap">
+        <svg id="map-svg"></svg>
+        <div id="tip"></div>
+      </div>
+      <div id="map-legend">
+        <span><span class="legend-dot" style="background:#8a3d53;"></span>visited</span>
+        <span><span class="legend-dot" style="background:#c4b5b9;"></span>not visited</span>
+        <span style="color:#8a3d53; font-style:italic;">click a visited location</span>
+      </div>
+      <div id="blog-panel">
+        <div id="blog-left">
+          <h2 id="blog-title"></h2>
+          <p id="blog-body"></p>
+        </div>
+        <div id="photo-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson@3/dist/topojson.min.js"></script>
+  <script>
+    // ── visited locations ─────────────────────────────────────────────────────
+
+    const visitedUS = new Set([
+      'California','Colorado','Wyoming','Montana',
+      'Louisiana','Arkansas','Wisconsin','Illinois',
+      'Indiana','Kentucky','Tennessee','Mississippi',
+      'Alabama','Florida','Georgia','South Carolina',
+      'North Carolina','New York','New Jersey'
+    ]);
+
+    const visitedEU = new Set(['Italy','Greece']);
+
+    // ── travel blog content ───────────────────────────────────────────────────
+    // Add blurbs and photo paths as you go.
+    // Photos: relative paths from media/map.html, e.g. '../images/travel/alabama/1.jpg'
+
+    const content = {
+      'Alabama':        { blurb: 'Home state. Where it all started.', photos: [] },
+      'Florida':        { blurb: '', photos: [] },
+      'Georgia':        { blurb: '', photos: [] },
+      'Tennessee':      { blurb: '', photos: [] },
+      'Mississippi':    { blurb: '', photos: [] },
+      'South Carolina': { blurb: '', photos: [] },
+      'North Carolina': { blurb: '', photos: [] },
+      'Kentucky':       { blurb: '', photos: [] },
+      'Indiana':        { blurb: '', photos: [] },
+      'Illinois':       { blurb: '', photos: [] },
+      'Wisconsin':      { blurb: '', photos: [] },
+      'Arkansas':       { blurb: '', photos: [] },
+      'Louisiana':      { blurb: '', photos: [] },
+      'New York':       { blurb: '', photos: [] },
+      'New Jersey':     { blurb: '', photos: [] },
+      'California':     { blurb: '', photos: [] },
+      'Colorado':       { blurb: '', photos: [] },
+      'Wyoming':        { blurb: '', photos: [] },
+      'Montana':        { blurb: '', photos: [] },
+      'Italy':          { blurb: '', photos: [] },
+      'Greece':         { blurb: '', photos: [] },
+    };
+
+    // ── FIPS → state name ─────────────────────────────────────────────────────
+
+    const fipsName = {
+      '01':'Alabama','02':'Alaska','04':'Arizona','05':'Arkansas',
+      '06':'California','08':'Colorado','09':'Connecticut','10':'Delaware',
+      '11':'District of Columbia','12':'Florida','13':'Georgia',
+      '15':'Hawaii','16':'Idaho','17':'Illinois','18':'Indiana',
+      '19':'Iowa','20':'Kansas','21':'Kentucky','22':'Louisiana',
+      '23':'Maine','24':'Maryland','25':'Massachusetts','26':'Michigan',
+      '27':'Minnesota','28':'Mississippi','29':'Missouri','30':'Montana',
+      '31':'Nebraska','32':'Nevada','33':'New Hampshire','34':'New Jersey',
+      '35':'New Mexico','36':'New York','37':'North Carolina',
+      '38':'North Dakota','39':'Ohio','40':'Oklahoma','41':'Oregon',
+      '42':'Pennsylvania','44':'Rhode Island','45':'South Carolina',
+      '46':'South Dakota','47':'Tennessee','48':'Texas','49':'Utah',
+      '50':'Vermont','51':'Virginia','53':'Washington','54':'West Virginia',
+      '55':'Wisconsin','56':'Wyoming'
+    };
+
+    // ── ISO numeric → European country name ───────────────────────────────────
+
+    const euName = {
+      8:'Albania',40:'Austria',112:'Belarus',56:'Belgium',
+      70:'Bosnia and Herzegovina',100:'Bulgaria',191:'Croatia',
+      196:'Cyprus',203:'Czech Republic',208:'Denmark',233:'Estonia',
+      246:'Finland',250:'France',276:'Germany',300:'Greece',
+      348:'Hungary',372:'Ireland',380:'Italy',428:'Latvia',
+      440:'Lithuania',442:'Luxembourg',470:'Malta',498:'Moldova',
+      499:'Montenegro',528:'Netherlands',807:'North Macedonia',
+      578:'Norway',616:'Poland',620:'Portugal',642:'Romania',
+      688:'Serbia',703:'Slovakia',705:'Slovenia',724:'Spain',
+      752:'Sweden',756:'Switzerland',804:'Ukraine',826:'United Kingdom',
+      20:'Andorra',438:'Liechtenstein',492:'Monaco',674:'San Marino'
+    };
+
+    // ── DOM refs ──────────────────────────────────────────────────────────────
+
+    const worldView  = document.getElementById('world-view');
+    const mapView    = document.getElementById('map-view');
+    const mapSvgEl   = document.getElementById('map-svg');
+    const tip        = document.getElementById('tip');
+    const blogPanel  = document.getElementById('blog-panel');
+    const blogTitle  = document.getElementById('blog-title');
+    const blogBody   = document.getElementById('blog-body');
+    const photoGrid  = document.getElementById('photo-grid');
+    const svg        = d3.select(mapSvgEl);
+    let activeEl     = null;
+
+    // ── navigation ────────────────────────────────────────────────────────────
+
+    document.getElementById('btn-us').addEventListener('click', loadUS);
+    document.getElementById('btn-eu').addEventListener('click', loadEU);
+
+    document.getElementById('back-btn').addEventListener('click', () => {
+      worldView.style.display = '';
+      mapView.classList.remove('active');
+      svg.selectAll('*').remove();
+      blogPanel.classList.remove('visible');
+      activeEl = null;
+    });
+
+    // ── blog panel ────────────────────────────────────────────────────────────
+
+    function showBlog(name, el) {
+      if (activeEl) d3.select(activeEl).classed('rp-active', false);
+      activeEl = el;
+      d3.select(el).classed('rp-active', true);
+
+      const data = content[name] || { blurb: '', photos: [] };
+      blogTitle.textContent = name.toLowerCase();
+      blogBody.textContent  = data.blurb || '[ no entry yet — check back later ]';
+
+      photoGrid.innerHTML = '';
+      const slots = Math.max(data.photos.length, 6);
+      for (let i = 0; i < slots; i++) {
+        const slot = document.createElement('div');
+        slot.className = 'pslot';
+        if (data.photos[i]) {
+          const img = document.createElement('img');
+          img.src = data.photos[i];
+          img.alt = name;
+          slot.appendChild(img);
+        } else {
+          slot.classList.add('empty');
+        }
+        photoGrid.appendChild(slot);
+      }
+
+      blogPanel.classList.add('visible');
+      blogPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // ── tooltip helpers ───────────────────────────────────────────────────────
+
+    function moveTip(event, label) {
+      const rect = mapSvgEl.getBoundingClientRect();
+      tip.style.display = 'block';
+      tip.style.left    = (event.clientX - rect.left + 12) + 'px';
+      tip.style.top     = (event.clientY - rect.top  + 10) + 'px';
+      tip.textContent   = label.toLowerCase();
+    }
+
+    function hideTip() { tip.style.display = 'none'; }
+
+    // ── US map ────────────────────────────────────────────────────────────────
+
+    function loadUS() {
+      worldView.style.display = 'none';
+      mapView.classList.add('active');
+      svg.selectAll('*').remove();
+      blogPanel.classList.remove('visible');
+      activeEl = null;
+
+      svg.attr('viewBox', '0 0 960 600');
+
+      const proj = d3.geoAlbersUsa().scale(1200).translate([480, 300]);
+      const path = d3.geoPath().projection(proj);
+
+      d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json').then(us => {
+        const features = topojson.feature(us, us.objects.states).features;
+
+        svg.append('g').selectAll('path')
+          .data(features)
+          .join('path')
+          .attr('class', d => {
+            const name = fipsName[String(d.id).padStart(2, '0')];
+            return 'rp ' + (visitedUS.has(name) ? 'rp-visited' : 'rp-unvisited');
+          })
+          .attr('d', path)
+          .on('mousemove', function(event, d) {
+            const name = fipsName[String(d.id).padStart(2, '0')];
+            if (visitedUS.has(name)) moveTip(event, name);
+          })
+          .on('mouseleave', hideTip)
+          .on('click', function(event, d) {
+            const name = fipsName[String(d.id).padStart(2, '0')];
+            if (visitedUS.has(name)) showBlog(name, this);
+          });
+
+        // inter-state borders
+        svg.append('path')
+          .datum(topojson.mesh(us, us.objects.states, (a, b) => a !== b))
+          .attr('fill', 'none')
+          .attr('stroke', '#f0eded')
+          .attr('stroke-width', 0.6)
+          .attr('d', path);
+      });
+    }
+
+    // ── Europe map ────────────────────────────────────────────────────────────
+
+    function loadEU() {
+      worldView.style.display = 'none';
+      mapView.classList.add('active');
+      svg.selectAll('*').remove();
+      blogPanel.classList.remove('visible');
+      activeEl = null;
+
+      svg.attr('viewBox', '0 0 960 660');
+
+      const proj = d3.geoMercator()
+        .center([15, 54])
+        .scale(720)
+        .translate([480, 370]);
+      const path = d3.geoPath().projection(proj);
+
+      d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json').then(world => {
+        const all        = topojson.feature(world, world.objects.countries).features;
+        const euFeatures = all.filter(f => euName[f.id]);
+
+        svg.append('g').selectAll('path')
+          .data(euFeatures)
+          .join('path')
+          .attr('class', d => {
+            const name = euName[d.id];
+            return 'rp ' + (visitedEU.has(name) ? 'rp-visited' : 'rp-unvisited');
+          })
+          .attr('d', path)
+          .on('mousemove', function(event, d) {
+            const name = euName[d.id];
+            if (visitedEU.has(name)) moveTip(event, name);
+          })
+          .on('mouseleave', hideTip)
+          .on('click', function(event, d) {
+            const name = euName[d.id];
+            if (visitedEU.has(name)) showBlog(name, this);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
