@@ -9,219 +9,230 @@
 <body>
   <div class="maincontainer">
     <nav class="nav-style">
-      <a href="../">home</a>&nbsp&nbsp|&nbsp&nbsp
-      <a href="../about-me">about me</a>&nbsp&nbsp|&nbsp&nbsp
-      <a href="../school-projects">school projects</a>&nbsp&nbsp|&nbsp&nbsp
-      <a href="../personal-projects">personal projects</a>&nbsp&nbsp|&nbsp&nbsp
-      <a href="../media">media</a>&nbsp&nbsp|&nbsp&nbsp
-      <a href="../misc">misc</a>&nbsp&nbsp|&nbsp&nbsp
+      <a href="../">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../about-me">about me</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../school-projects">school projects</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../personal-projects">personal projects</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../media">media</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="../misc">misc</a>&nbsp;&nbsp;|&nbsp;&nbsp;
       <a href="../contact-me">contact me</a>
     </nav>
+
     <div>
-      <h1 class="title">carson owen</h1>
+      <h1 class="title"><span id="title-trigger">carson owen</span></h1>
       <img src="../images/lines/rocket.gif" class="rocket" alt="line" id="line1"/>
     </div>
-    <div class="wrapper">
-      <div class="lcontent" style="height: auto;">
-        <b>my background</b>
-        <p class="p2">Originally from Birmingham, AL, I studied at <b>Auburn University</b> <a href="https://eng.auburn.edu/aero/"><img src="../images/about-me/Auburn-University-Logo-1939.png" height="16px" style="vertical-align:middle"></a>, where I received my <b>bachelor's degree</b> in <b>Aerospace Engineering.</b></p>
-        <b>my current role</b>
-        <p class ="p2">Since graduating, I've traded the loveliest village for the rocket city, where I am an <b>Aerospace Modeling and Simulation Engineer</b> at <b>Leidos / Dynetics, Inc.</b> <a href="https://www.linkedin.com/company/leidos-dynetics/about/"><img src="../images/about-me/Dynetics-Leidos_logo.svg.png" height="16px" style="vertical-align:bottom"></a></p>
-        <b>what interests me</b>
-        <p class="p2">How things move through the air, how they're precisely controlled, and how we simulate it all before ever leaving the ground.</p>
-        <b>what keeps me moving</b>
-        <p class="p2">If I'm not at my desk, I'm probably moving— running <a href="https://www.strava.com/athletes/34591568"><img src="../images/about-me/strava_logo_icon_147232.png" height="16px" style="vertical-align:middle"></a>, playing ultimate, or hitting the gym.</p>
-        <b>beyond aerospace</b>
-        <p class="p2">Life isn't just about the grind. I like hanging out with my wife and dog, keeping up with Auburn sports, messing with my car, and exploring new places.</p> 
+
+    <!-- personal overview -->
+    <div class="personal-section">
+      <div class="slideshow-wrap">
+        <img src="../images/about-me/aub.JPEG" class="main-photo" id="slideshow-photo" alt=""/>
       </div>
-      <div class="rcontent">
-        <img src="../images/about-me/aub.JPEG" width="100%"/>
+      <div class="personal-cards">
+        <div class="pcard">
+          <span class="pcard-label">from</span>
+          <p class="pcard-value">Birmingham, AL</p>
+        </div>
+        <div class="pcard">
+          <span class="pcard-label">currently</span>
+          <p class="pcard-value">Aerospace M&amp;S Engineer<br>Dynetics / Leidos &mdash; Huntsville, AL</p>
+        </div>
+        <div class="pcard">
+          <span class="pcard-label">education</span>
+          <p class="pcard-value">B.S. Aerospace Engineering<br>Auburn University, 2025</p>
+        </div>
+        <div class="pcard">
+          <span class="pcard-label">off the clock</span>
+          <p class="pcard-value">running, ultimate frisbee,<br>Auburn sports, family</p>
+        </div>
       </div>
     </div>
-    <!-- <div class="wrapper">
-      <div class="lcontent">
-        <p style="font-size: 48pt; margin: 0; margin-bottom: 0px;">resume</p>
+
+    <!-- timeline -->
+    <div class="timeline">
+
+      <div class="tl-entry">
+        <span class="tl-date">2001 &ndash; 2020</span>
+        <div class="tl-card">
+          <img class="tl-img" padding: 10px; id="sponge-img" src="../images/about-me/sponge.JPG" alt="">
+          <div class="tl-content">
+            <h3 class="tl-title">Birmingham, AL</h3>
+            <p class="tl-body">Grew up in Birmingham, Alabama. Spent these years developing a curiosity for how things work, a love of Auburn football, and an itch to eventually do something with aerospace.</p>
+          </div>
+        </div>
       </div>
-      <div class="rcontent">
-        <br>
-        <p class="p2" style="margin-bottom: 0px;">ph: ( two 0 five ) - five 0 four - 0 0 0 one</p>
-        <p class="p2" style="margin-top: 3px;">em: cowen1053 at gmail</p>
-        <br>
+
+      <div class="tl-entry">
+        <span class="tl-date">August 2020</span>
+        <div class="tl-card">
+          <img class="tl-img tl-logo" src="../images/about-me/Auburn-University-Logo-1939.png" alt="Auburn University">
+          <div class="tl-content">
+            <h3 class="tl-title">B.S. Aerospace Engineering &mdash; Auburn University</h3>
+            <p class="tl-loc">Auburn, AL</p>
+            <p class="tl-body">Started in the Samuel Ginn College of Engineering. Five years of aerodynamics, flight dynamics, orbital mechanics, control systems, and more &mdash; with plenty of Auburn football woven in.</p>
+          </div>
+        </div>
       </div>
-    </div> -->
-    <!-- <div class="wrapper" style="border-top: 1.5px solid #5e5558; border-top-style: dashed; height: 102vh">
-      <div class="lcontent">
-        <p class="p0">skills</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Programming:</b></p>
-        <p class="p2" style="text-align: left;">MATLAB, Simulink, Python, C++, NPSS, CEA</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Software:</b></p>
-        <p class="p2" style="text-align: left;">SOLIDWORKS, Microsoft Office Suite, Git, TortoiseSVN</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Applied Aerospace:</b></p>
-        <p class="p2" style="text-align: left;">Aerodynamics, Control Systems, Flight Dynamics, Orbital Mechanics, Acoustics, Propulsion, Aircraft Design, Vibrations</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Supplemental Aerospace:</b></p>
-        <p class="p2" style="text-align: left;">Navigation Engineering, Modeling and Simulation</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Supplemental Mechanical:</b></p>
-        <p class="p2" style="text-align: left;">Iterative Design, Rapid Prototyping, GD&T</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Other Relevant Coursework:</b></p>
-        <p class="p2" style="text-align: left;">Calculus I-III, Physics I-II, Statics, Dynamics, Differential Equations, Linear Algebra, Mechanics of Materials, Thermodynamics, Numerical Analysis, Structures I-II</p>
-        <br>
-        <p class="p0">honors and awards</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Eagle Scout</b></p>
-        <p class="p2" style="text-align: left; margin-top: 0px;">Fall 2019</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Secret Security Clearance</b></p>
-        <p class="p2" style="text-align: left; margin-top: 0px;">Summer 2022</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Dean's List</b></p>
-        <p class="p2" style="text-align: left; margin-top: 0px;">Fall 2023</p>
-        <br>
-        <p class="p0">affiliations</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Auburn Club Ultimate Team</b></p>
-        <p class="p2" style="text-align: left; margin-top: 0px;">Treasurer, Fall 2022 - Fall 2024</p>
+
+      <div class="tl-entry">
+        <span class="tl-date">Summer 2022 &amp; Spring 2023</span>
+        <div class="tl-card">
+          <img class="tl-img tl-logo" src="../images/about-me/tsc.jpg" alt="Technology Service Corporation">
+          <div class="tl-content">
+            <h3 class="tl-title">Mechanical Engineering Co-Op &mdash; Technology Service Corporation</h3>
+            <p class="tl-loc">Huntsville, AL</p>
+            <p class="tl-body">Two semesters as a ME Co-Op in Huntsville &mdash; first real exposure to professional engineering in the defense sector. Work spanned mechanical design and rapid prototyping.</p>
+          </div>
+        </div>
       </div>
-      <div class="rcontent">
-        <p class="p0">education</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Bachelors of Science, Aerospace Engineering</b></p>
-        <p class="p2" style="text-align: left;">Auburn University, May 2025</p>
-        <br>
-        <p class="p0">full time experience</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Aerospace Modeling and Simulation Engineer</b> (current)</p>
-        <p class="p2" style="text-align: left;"><u>Leidos / Dynetics, Inc.</u>, Huntsville, AL</p>
-        <br>
-        <p class="p0">internship experience</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Technical Intern - Aerospace Engineering</b> (Summer 2024, part-time Fall 2024 and Spring 2025)</p>
-        <p class="p2" style="text-align: left;"><u>Leidos / Dynetics, Inc.</u>, Huntsville, AL</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Student GN&C Engineer</b> (Summer 2023)</p>
-        <p class="p2" style="text-align: left;"><u>Draper Laboratory</u>, Huntsville, AL</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Mechanical Engineering Co-Op</b> (Summer 2022, Spring 2023)</p>
-        <p class="p2" style="text-align: left;"><u>Technology Service Corporation</u>, Huntsville, AL</p>
-        <br>
-        <p class="p0">undergraduate projects</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Supersonic Wind Tunnel Design</b> (Fall 2023)</p>
-        <p class="p2" style="text-align: left;"><u>Auburn University</u>, Aerodynamics II Final Project</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>Cessna T-37 6DOF Simulation</b> (Fall 2023)</p>
-        <p class="p2" style="text-align: left;"><u>Auburn University</u>, Flight Dynamics Final Project</p>
-        <p class="p2" style="margin-bottom: 0px;"><b>DART System Simulation</b> (Fall 2022)</p>
-        <p class="p2" style="text-align: left;"><u>Auburn University</u>, Aerospace Systems Final Project</p>
+
+      <div class="tl-entry">
+        <span class="tl-date">Summer 2023</span>
+        <div class="tl-card">
+          <img class="tl-img tl-logo" src="../images/about-me/draper.png" alt="Draper Laboratory">
+          <div class="tl-content">
+            <h3 class="tl-title">Student GN&amp;C Engineer &mdash; Draper Laboratory</h3>
+            <p class="tl-loc">Huntsville, AL</p>
+            <p class="tl-body">A summer working on guidance, navigation, and control problems with Draper. First deep dive into the intersection of aerospace systems and applied software.</p>
+          </div>
+        </div>
       </div>
-    </div> -->
+
+      <div class="tl-entry">
+        <span class="tl-date">Fall 2023 &ndash; Spring 2024</span>
+        <div class="tl-card">
+          <img class="tl-img tl-logo" src="../images/about-me/boeing.png" alt="Boeing">
+          <div class="tl-content">
+            <h3 class="tl-title">Student Engineer Contractor &mdash; Auburn University / Boeing</h3>
+            <p class="tl-loc">Auburn, AL</p>
+            <p class="tl-body">Worked as a student contractor on Boeing-sponsored research through Auburn University. Gained experience in aerospace systems analysis while finishing coursework.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-entry">
+        <span class="tl-date">Summer 2024</span>
+        <div class="tl-card">
+          <img class="tl-img tl-logo" src="../images/about-me/dynetics.jpg" alt="Dynetics / Leidos">
+          <div class="tl-content">
+            <h3 class="tl-title">Technical Intern, Aerospace Engineering &mdash; Dynetics, Inc.</h3>
+            <p class="tl-loc">Huntsville, AL</p>
+            <p class="tl-body">Full-time summer internship working in aerospace modeling and simulation. The work that would eventually become a career.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-entry">
+        <span class="tl-date">Fall 2024 &ndash; Spring 2025</span>
+        <div class="tl-card">
+          <img class="tl-img tl-logo" src="../images/about-me/dynetics.jpg" alt="Dynetics / Leidos">
+          <div class="tl-content">
+            <h3 class="tl-title">Technical Intern, Aerospace Engineering &mdash; Dynetics, Inc.</h3>
+            <p class="tl-loc">Huntsville, AL &mdash; remote</p>
+            <p class="tl-body">Continued part-time and remotely while finishing the final year of the degree back at Auburn.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-entry">
+        <span class="tl-date">May 2025</span>
+        <div class="tl-card">
+          <img class="tl-img tl-logo" src="../images/about-me/Auburn-University-Logo-1939.png" alt="Auburn University">
+          <div class="tl-content">
+            <h3 class="tl-title">Graduated &mdash; Auburn University</h3>
+            <p class="tl-body">Bachelor of Engineering in Aerospace Engineering. War Eagle.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-entry">
+        <span class="tl-date">Summer 2025</span>
+        <div class="tl-card">
+          <img class="tl-img tl-logo" src="../images/about-me/dynetics.jpg" alt="Dynetics / Leidos">
+          <div class="tl-content">
+            <h3 class="tl-title">Aerospace Modeling &amp; Simulation Engineer &mdash; Dynetics, Inc.</h3>
+            <p class="tl-loc">Huntsville, AL</p>
+            <p class="tl-body">Joined full-time. Working at the intersection of flight dynamics, simulation, and defense systems. The rocket city is home.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <script>
-    // script for bouncy images ... ChatGPT helped me write this
+    // Slideshow — size the wrap from fr.jpg's natural aspect ratio
+    const slideshowWrap = document.querySelector('.slideshow-wrap');
+    let frRatio = null;
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const images = document.querySelectorAll(".bouncy-img");
-        const container = document.querySelector(".rcontent-in");
+    function applySlideHeight() {
+      if (frRatio) slideshowWrap.style.height = (slideshowWrap.offsetWidth * frRatio) + 'px';
+    }
 
-        const damping = 0.98;
-        const repulsionStrength = 5000;
-        const collisionRepulsion = 10;
-        const minSpawnDistance = 50;
-        const initialSpeed = 2;
+    const frRef = new Image();
+    frRef.onload = function() {
+      frRatio = this.naturalHeight / this.naturalWidth;
+      applySlideHeight();
+    };
+    frRef.src = '../images/about-me/fr.jpg';
+    window.addEventListener('resize', applySlideHeight);
 
-        let velocities = new Map();
-        let positions = [];
+    const photos = ['../images/about-me/aub.JPEG', '../images/about-me/fr.jpg'];
+    let photoIndex = 0;
+    const slide = document.getElementById('slideshow-photo');
+    setInterval(() => {
+      slide.style.opacity = '0';
+      setTimeout(() => {
+        photoIndex = (photoIndex + 1) % photos.length;
+        slide.src = photos[photoIndex];
+        slide.style.opacity = '1';
+      }, 500);
+    }, 5000);
 
-        function getBoundary() {
-            return container.getBoundingClientRect();
+    // Timeline scroll animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
         }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.tl-entry').forEach(e => observer.observe(e));
 
-        function isOverlapping(newX, newY, newWidth, newHeight) {
-            return positions.some(pos => {
-                return (
-                    newX < pos.x + pos.width &&
-                    newX + newWidth > pos.x &&
-                    newY < pos.y + pos.height &&
-                    newY + newHeight > pos.y
-                );
-            });
-        }
+    // Sponge easter egg — hovering "carson owen" briefly enables the sponge image as a link
+    const titleTrigger = document.getElementById('title-trigger');
+    const spongeImg = document.getElementById('sponge-img');
+    let spongeTimer;
+    let linkActive = false;
+    let onCooldown = false;
 
-        images.forEach(img => {
-            let boundary = getBoundary();
-            let imgWidth = img.width;
-            let imgHeight = img.height;
-            let x, y;
+    function deactivate() {
+      clearTimeout(spongeTimer);
+      spongeTimer = setTimeout(() => {
+        linkActive = false;
+        spongeImg.style.cursor = '';
+        onCooldown = false;
+      }, 1500);
+    }
 
-            let attempts = 0;
-            do {
-                x = Math.random() * (boundary.width - imgWidth);
-                y = Math.random() * (boundary.height - imgHeight);
-                attempts++;
-            } while (isOverlapping(x, y, imgWidth, imgHeight) && attempts < 100);
+    titleTrigger.addEventListener('mouseenter', () => {
+      if (onCooldown) return;
+      onCooldown = true;
+      linkActive = true;
+      spongeImg.style.cursor = 'pointer';
+      deactivate();
+    });
 
-            positions.push({ x, y, width: imgWidth, height: imgHeight });
-
-            img.style.left = x + "px";
-            img.style.top = y + "px";
-
-            let angle = Math.random() * 2 * Math.PI;
-            let vx = Math.cos(angle) * initialSpeed;
-            let vy = Math.sin(angle) * initialSpeed;
-            velocities.set(img, { vx, vy });
-
-            // document.addEventListener("mousemove", function (event) {
-            //     let imgRect = img.getBoundingClientRect();
-            //     let dx = imgRect.left + imgRect.width / 2 - event.clientX;
-            //     let dy = imgRect.top + imgRect.height / 2 - event.clientY;
-            //     let distance = Math.sqrt(dx * dx + dy * dy);
-
-            //     if (distance < 100) {
-            //         let force = repulsionStrength / (distance * distance);
-            //         let angle = Math.atan2(dy, dx);
-            //         velocities.get(img).vx += Math.cos(angle) * force;
-            //         velocities.get(img).vy += Math.sin(angle) * force;
-            //     }
-            // });
-
-            function moveImage() {
-                let velocity = velocities.get(img);
-                velocity.vx *= damping;
-                velocity.vy *= damping;
-
-                let boundary = getBoundary();
-                let newX = parseFloat(img.style.left) + velocity.vx;
-                let newY = parseFloat(img.style.top) + velocity.vy;
-
-                images.forEach(otherImg => {
-                    if (otherImg === img) return;
-                    
-                    let imgRect = img.getBoundingClientRect();
-                    let otherRect = otherImg.getBoundingClientRect();
-                    let dx = otherRect.left - imgRect.left;
-                    let dy = otherRect.top - imgRect.top;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-                    let minDist = (imgRect.width + otherRect.width) / 2;
-
-                    if (distance < minDist) {
-                        let angle = Math.atan2(dy, dx);
-                        let force = collisionRepulsion / (distance + 1);
-                        velocity.vx -= Math.cos(angle) * force;
-                        velocity.vy -= Math.sin(angle) * force;
-                    }
-                });
-
-                if (newX < 0 || newX > boundary.width - img.width) {
-                    velocity.vx *= -0.7;
-                    newX = Math.max(0, Math.min(boundary.width - img.width, newX));
-                }
-                if (newY < 0 || newY > boundary.height - img.height) {
-                    velocity.vy *= -0.7;
-                    newY = Math.max(0, Math.min(boundary.height - img.height, newY));
-                }
-
-                img.style.left = newX + "px";
-                img.style.top = newY + "px";
-
-                requestAnimationFrame(moveImage);
-            }
-
-            moveImage();
-        });
+    spongeImg.addEventListener('mouseenter', () => {
+      if (linkActive) clearTimeout(spongeTimer);
+    });
+    spongeImg.addEventListener('mouseleave', () => {
+      if (linkActive) deactivate();
+    });
+    spongeImg.addEventListener('click', () => {
+      if (linkActive) window.location.href = '../secret/';
     });
   </script>
-
 </body>
-
-
-
 </html>

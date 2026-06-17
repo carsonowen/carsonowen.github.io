@@ -1,14 +1,23 @@
+html {
+    background-color: #e6e4e1;
+  }
+
 body {
-    background-image: url("images/tiles/marble2.gif");
-    background-attachment: scroll;
-    background-repeat: repeat;
+    background: none;
     color: #FFFFFF;
     height: 100%;
   }
 
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("images/tiles/marble2.jpg");
+    background-repeat: repeat;
+    z-index: -1;
+  }
+
   .maincontainer {
-    /* background-color: rgba(0, 0, 0, 0.1);
-    background-blend-mode: multiply; */
     max-width: 1000px;
     width: 100%;
     margin: auto;
@@ -23,19 +32,34 @@ body {
     text-align: center;
     margin-bottom: 0px;
     margin-top: 40px;
+    cursor: default;
   }
+
+  #title-trigger {
+    display: inline-block;
+  }
+
   #line1 {
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
   }
+
+  .p0 {
+    font-family: 'Anton';
+    color: #484848;
+    font-size: 22px;
+    margin: 0;
+  }
+
   .p1 {
     font-family: 'Courier New', Courier, monospace;
     color: black;
     font-size: 10px;
     margin-top: 0px;
   }
+
   .p2 {
     font-family: 'Courier New', Courier, monospace;
     color: #484848;
@@ -43,6 +67,7 @@ body {
     margin-top: 5px;
     text-align: justify;
   }
+
   .nav-style {
     text-decoration: none;
     font-family: 'Courier New', Courier, monospace;
@@ -54,9 +79,17 @@ body {
     margin-bottom: 10px;
   }
 
+  .rocket {
+    filter: grayscale(100%);
+  }
+
+  /* ── shared two-column layout (other pages) ── */
+
   .wrapper {
     width: 100%;
-    height: 67vh;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
     padding-top: 15px;
     padding-bottom: 15px;
   }
@@ -65,76 +98,217 @@ body {
     font-size: 22px;
     font-family: 'Courier New', Courier, monospace;
     color: #5e5558;
-    width: 65%;
-    float: left;
-    /* border-right: 1.5px solid #5e5558; */
+    flex: 0 0 60%;
     box-sizing: border-box;
     padding-right: 15px;
-    height: 100%;
   }
 
   .rcontent {
     font-size: 22px;
     font-family: Cambria;
     color: black;
-    /* float: left; */
-    width: auto;
+    flex: 1;
+    min-width: 0;
     box-sizing: border-box;
-    /* height: 100%; */
+  }
+
+  .section-header {
+    font-family: 'Courier New', Courier, monospace;
+    color: #8a3d53;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 14px;
+    margin-bottom: 0;
+  }
+
+  .section-header:first-child {
+    margin-top: 0;
+  }
+
+  /* ── about-me: slideshow photo ── */
+
+  .main-photo {
+    width: 100%;
+    display: block;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  /* ── about-me: personal overview section ── */
+
+  .personal-section {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+    margin-top: 16px;
+    margin-bottom: 36px;
+  }
+
+  .slideshow-wrap {
+    flex: 0 0 36%;
     position: relative;
     overflow: hidden;
-    padding-left: 15px;
   }
 
-  .rcontent-in {
-    position: relative;
+  .slideshow-wrap .main-photo {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+  }
+
+  .personal-cards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pcard {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px dashed #8a3d53;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .pcard-label {
+    display: block;
+    font-family: 'Courier New', Courier, monospace;
+    color: #8a3d53;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+
+  .pcard-value {
+    font-family: 'Courier New', Courier, monospace;
+    color: #484848;
+    font-size: 13px;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── about-me: timeline ── */
+
+  .timeline {
+    position: relative;
+    border-left: 2px dashed #8a3d53;
+    padding-left: 30px;
+    margin-bottom: 48px;
+  }
+
+  .tl-entry {
+    position: relative;
+    margin-bottom: 28px;
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.45s ease;
+  }
+
+  .tl-entry.visible {
+    opacity: 1;
+  }
+
+  .tl-entry::before {
+    content: '';
+    position: absolute;
+    left: -36px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #8a3d53;
+    box-shadow: 0 0 0 3px rgba(138, 61, 83, 0.18);
+  }
+
+  .tl-date {
+    display: block;
+    font-family: 'Courier New', Courier, monospace;
+    color: #8a3d53;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+
+  .tl-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px dashed #5e5558;
+    padding: 14px;
+  }
+
+  .tl-img {
+    flex: 0 0 110px;
+    width: 110px;
+    height: 85px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .tl-logo {
+    object-fit: contain;
+    background: white;
+    /* padding: 10px; */
     box-sizing: border-box;
   }
 
-  .bouncy-img {
-    width: 300px;
-    height: auto;
-    position: absolute;
-    transition: transform 0.1s linear;
-    transition: filter 0.3s ease-in-out;
-    user-select: none;
-    border-radius: 15px;
-    filter: grayscale(100%)
+  .tl-content {
+    flex: 1;
+    min-width: 0;
   }
 
-  .bouncy-img:hover {
-    filter: grayscale(0%);
+  .tl-title {
+    font-family: 'Courier New', Courier, monospace;
+    color: #3a3a3a;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 4px 0;
   }
 
-  .p0 {
-    font-family: 'Anton';
+  .tl-loc {
+    font-family: 'Courier New', Courier, monospace;
+    color: #8a3d53;
+    font-size: 11px;
+    font-style: italic;
+    margin: 0 0 6px 0;
+  }
+
+  .tl-body {
+    font-family: 'Courier New', Courier, monospace;
     color: #484848;
-    font-size: 22px;
+    font-size: 13px;
     margin: 0;
+    line-height: 1.55;
   }
-  
-  .rocket {
-    filter: grayscale(100%);
-  }
+
+  /* ── links ── */
 
 a:link {
   text-decoration: none;
-  color: inherit
+  color: inherit;
 }
 
 a:visited {
   text-decoration: none;
-  color: inherit
+  color: inherit;
 }
 
 a:hover {
   text-decoration: underline;
-  color: inherit
+  color: inherit;
 }
 
 a:active {
   text-decoration: underline;
-  color: inherit
+  color: inherit;
 }
