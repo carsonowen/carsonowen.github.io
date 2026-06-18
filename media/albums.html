@@ -1,0 +1,455 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>albums</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../page-styles.css" type="text/css">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../images/fez-images/favicon.ico">
+  <style>
+    #disclaimer {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px;
+      color: #5e5558;
+      font-style: italic;
+      border: 1px dashed #c9b8bc;
+      padding: 11px 15px;
+      background: rgba(255,255,255,0.78);
+      margin: 16px 0 10px;
+      line-height: 1.65;
+    }
+    #disclaimer strong { color: #8a3d53; font-style: normal; }
+
+    #stats-bar {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 11px;
+      color: #8a8a8a;
+      margin: 0 0 20px;
+      letter-spacing: 0.3px;
+    }
+    #stats-bar span { color: #8a3d53; }
+
+    /* view toggle */
+    #view-toggle {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .vbtn {
+      background: none; border: none; padding: 0; cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px; color: #8a3d53; letter-spacing: 0.4px;
+    }
+    .vbtn.active { text-decoration: underline; font-weight: bold; }
+    .vbtn:hover { text-decoration: underline; }
+    .vdivider { color: #c9b8bc; font-size: 12px; font-family: 'Courier New', Courier, monospace; }
+
+    /* ── tier view ── */
+    #tier-view  { display: block; margin-bottom: 40px; }
+    #list-view  { display: none;  margin-bottom: 40px; }
+
+    .tier-row {
+      display: flex;
+      margin-bottom: 3px;
+      align-items: stretch;
+    }
+    .tier-label {
+      flex: 0 0 52px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.82);
+      border: 1px dashed #8a3d53;
+      font-family: 'Courier New', Courier, monospace;
+      color: #8a3d53;
+      padding: 6px 2px;
+      gap: 3px;
+    }
+    .tier-grade { font-size: 15px; font-weight: bold; }
+    .tier-range { font-size: 8px; color: #c9b8bc; letter-spacing: 0.2px; }
+
+    .tier-albums {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      padding: 3px;
+      background: rgba(255,255,255,0.38);
+      border: 1px dashed #c9b8bc;
+      border-left: none;
+      align-content: flex-start;
+      min-height: 40px;
+    }
+
+    .at { /* album thumb */
+      position: relative;
+      width: 78px;
+      height: 78px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .at img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .at-ph { /* placeholder */
+      width: 100%; height: 100%;
+      background: #d4c5c8;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 18px; color: #b0a0a4;
+    }
+    .at-ov {
+      position: absolute; inset: 0;
+      background: rgba(80,25,45,0.88);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 5px; opacity: 0;
+      transition: opacity 0.16s; text-align: center;
+    }
+    .at:hover .at-ov { opacity: 1; }
+    .ov-title  { font-family: 'Courier New', Courier, monospace; font-size: 8.5px; color: #fff; font-weight: bold; line-height: 1.3; margin-bottom: 2px; }
+    .ov-artist { font-family: 'Courier New', Courier, monospace; font-size: 7.5px; color: #e8c8d2; line-height: 1.2; }
+    .ov-score  { font-family: 'Courier New', Courier, monospace; font-size: 9px; color: #f0d0dc; margin-top: 3px; }
+
+    /* ── list view ── */
+    .li {
+      display: flex; gap: 12px; align-items: center;
+      padding: 7px 12px;
+      background: rgba(255,255,255,0.82);
+      border-bottom: 1px dashed #e0d8da;
+    }
+    .li:hover { background: rgba(255,255,255,0.97); }
+    .li-rank {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 10px; color: #8a3d53;
+      flex: 0 0 28px; text-align: right;
+    }
+    .li-art { flex: 0 0 50px; height: 50px; object-fit: cover; display: block; }
+    .li-art-ph { flex: 0 0 50px; height: 50px; background: #d4c5c8; }
+    .li-info { flex: 1; min-width: 0; }
+    .li-title {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px; font-weight: bold; color: #3a3a3a;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin: 0 0 2px;
+    }
+    .li-artist {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 10px; color: #8a3d53; margin: 0;
+    }
+    .li-score-col { flex: 0 0 76px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .li-score-num { font-family: 'Courier New', Courier, monospace; font-size: 11px; color: #484848; }
+    .li-bar-bg  { width: 76px; height: 4px; background: #e0d8da; }
+    .li-bar-fill { height: 100%; background: #8a3d53; }
+  </style>
+</head>
+<body>
+<div class="maincontainer">
+  <nav class="nav-style">
+    <a href="../">home</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="../about-me">about me</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="../school-projects">school projects</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="../personal-projects">personal projects</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="../media">media</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="../misc">misc</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="../contact-me">contact me</a>
+  </nav>
+
+  <div>
+    <h1 class="title">albums</h1>
+    <img src="../images/lines/rocket.gif" class="rocket" alt="line" id="line1"/>
+  </div>
+
+  <div id="disclaimer">
+    <strong>methodology:</strong> each album's score is the percentage of its tracks saved to my Spotify library
+    (saved songs &divide; total tracks &times; 100). albums with filler tracks, interludes, or weaker cuts rank lower
+    even if their standout songs are among my favorites &mdash; which is why entries like
+    <em>Abbey Road</em> and <em>The College Dropout</em> appear lower than you&rsquo;d expect.
+    this is a measurement of consistency, not peak quality.
+  </div>
+
+  <p id="stats-bar">
+    <span id="stat-count">160</span> albums &nbsp;&middot;&nbsp;
+    <span>8</span> perfect scores &nbsp;&middot;&nbsp;
+    most represented artist: <span>R.E.M.</span> (16 albums)
+  </p>
+
+  <div id="view-toggle">
+    <button class="vbtn active" id="btn-tier" onclick="setView('tier')">tier view</button>
+    <span class="vdivider">|</span>
+    <button class="vbtn" id="btn-list" onclick="setView('list')">list view</button>
+  </div>
+
+  <div id="tier-view"></div>
+  <div id="list-view"></div>
+</div>
+
+<script>
+const IMG = '../images/misc/album-rankings/';
+const albums = [
+  {r:1,   t:'A Rush of Blood to the Head',              a:'Coldplay',                    s:100, img:'Coldplay_-_A_Rush_of_Blood_to_the_Head_Cover.png'},
+  {r:2,   t:'American Beauty',                          a:'Grateful Dead',               s:100, img:'Grateful_Dead_-_American_Beauty.jpg'},
+  {r:3,   t:'4 Your Eyez Only',                         a:'J. Cole',                     s:100, img:'J._Cole_—_4_Your_Eyez_Only_album_cover.jpg'},
+  {r:4,   t:'The Cry of Love',                          a:'Jimi Hendrix',                s:100, img:'Jimi_Hendrix_-The_Cry_Of_Love.jpg'},
+  {r:5,   t:'Any Given Thursday',                       a:'John Mayer',                  s:100, img:'Mayer_Thursday.jpg'},
+  {r:6,   t:'Continuum',                                a:'John Mayer',                  s:100, img:'Continuum_by_John_Mayer_(2006).jpg'},
+  {r:7,   t:'ye',                                       a:'Kanye West',                  s:100, img:'Ye_album_cover.jpg'},
+  {r:8,   t:'MTV Unplugged In New York',                a:'Nirvana',                     s:100, img:'Nirvana_mtv_unplugged_in_new_york.png'},
+  {r:9,   t:'Blood Sugar Sex Magik',                    a:'Red Hot Chili Peppers',       s:94,  img:'RHCP-BSSM.jpg'},
+  {r:10,  t:'On and On',                                a:'Jack Johnson',                s:94,  img:'On_and_On_(Jack_Johnson_album_-_cover_art).jpg'},
+  {r:11,  t:'By the Way',                               a:'Red Hot Chili Peppers',       s:94,  img:'Rhcp7.jpg'},
+  {r:12,  t:'New Adventures in Hi-Fi',                  a:'R.E.M.',                      s:93,  img:'R.E.M._-_New_Adventures_in_Hi-Fi.jpg'},
+  {r:13,  t:'Under the Table and Dreaming',             a:'Dave Matthews Band',          s:92,  img:'Dave_Matthews_Band_-_Under_the_Table_and_Dreaming.jpg'},
+  {r:14,  t:'Automatic For The People',                 a:'R.E.M.',                      s:92,  img:'R.E.M._-_Automatic_for_the_People.jpg'},
+  {r:15,  t:'Murmur',                                   a:'R.E.M.',                      s:92,  img:'R.E.M._-_Murmur.jpg'},
+  {r:16,  t:'Where the Light Is: Live in Los Angeles',  a:'John Mayer',                  s:91,  img:'John_Mayer_-_Where_the_Light_Is.jpg'},
+  {r:17,  t:'Fables of the Reconstruction',             a:'R.E.M.',                      s:91,  img:'R.E.M._-_Fables_of_the_Reconstruction.jpg'},
+  {r:18,  t:"Tell Me I'm Pretty",                       a:'Cage the Elephant',           s:90,  img:"Cage_the_Elephant_-_Tell_Me_I'm_Pretty.png"},
+  {r:19,  t:'Weezer (Blue Album)',                      a:'Weezer',                      s:90,  img:'Weezer_-_Blue_Album.png'},
+  {r:20,  t:'Led Zeppelin III',                         a:'Led Zeppelin',                s:89,  img:'Led_Zeppelin_-_Led_Zeppelin_II.jpg'},
+  {r:21,  t:'VULTURES 1',                               a:'¥$',                          s:88,  img:'Kanye_West_and_Ty_Dolla_Sign_(¥$)_–_Vultures.png'},
+  {r:22,  t:"Workingman's Dead",                        a:'Grateful Dead',               s:88,  img:"Grateful_Dead_-_Workingman's_Dead.jpg"},
+  {r:23,  t:'Houses of the Holy',                       a:'Led Zeppelin',                s:88,  img:'Led_Zeppelin_-_Houses_of_the_Holy.jpg'},
+  {r:24,  t:'Untitled',                                 a:'Led Zeppelin',                s:88,  img:'Led_Zeppelin_-_Led_Zeppelin_IV.jpg'},
+  {r:25,  t:'Physical Graffiti',                        a:'Led Zeppelin',                s:87,  img:'Led_Zeppelin_-_Physical_Graffiti.jpg'},
+  {r:26,  t:'Donda',                                    a:'Kanye West',                  s:86,  img:'Almost_black_square_020305.svg.png'},
+  {r:27,  t:'In Through the Out Door',                  a:'Led Zeppelin',                s:86,  img:'Led_Zeppelin_-_In_Through_the_Out_Door.jpg'},
+  {r:28,  t:'Graduation',                               a:'Kanye West',                  s:85,  img:'Graduation_(album).jpg'},
+  {r:29,  t:"Life's Rich Pageant",                      a:'R.E.M.',                      s:83,  img:'R.E.M._-_Lifes_Rich_Pageant.jpg'},
+  {r:30,  t:'Reveal',                                   a:'R.E.M.',                      s:83,  img:'R.E.M._-_Reveal.jpg'},
+  {r:31,  t:'Green',                                    a:'R.E.M.',                      s:82,  img:'R.E.M._-_Green.jpg'},
+  {r:32,  t:'Heavier Things',                           a:'John Mayer',                  s:80,  img:'Heavierthings.johnmayer.albumcover.jpg'},
+  {r:33,  t:'Led Zeppelin III',                         a:'Led Zeppelin',                s:80,  img:'Led_Zeppelin_-_Led_Zeppelin_III.png'},
+  {r:34,  t:'Reckoning',                                a:'R.E.M.',                      s:80,  img:'R.E.M._-_Reckoning.jpg'},
+  {r:35,  t:'In Between Dreams',                        a:'Jack Johnson',                s:79,  img:'InBetweenDreams.jpg'},
+  {r:36,  t:'Led Zeppelin',                             a:'Led Zeppelin',                s:78,  img:'Led_Zeppelin_-_Led_Zeppelin_(1969)_front_cover.png'},
+  {r:37,  t:'2014 Forest Hills Drive',                  a:'J. Cole',                     s:77,  img:'2014ForestHillsDrive.jpg'},
+  {r:38,  t:'Room For Squares',                         a:'John Mayer',                  s:77,  img:'JohnMayer_RoomForSquares.jpg'},
+  {r:39,  t:'Are You Experienced',                      a:'The Jimi Hendrix Experience', s:76,  img:'Are_You_Experienced_-_US_cover-edit.jpg'},
+  {r:40,  t:'Unpeeled',                                 a:'Cage the Elephant',           s:76,  img:'Unpeeled.jpg'},
+  {r:41,  t:'#1 Record',                                a:'Big Star',                    s:75,  img:'Big_Star_-1_Record.jpg'},
+  {r:42,  t:'Born and Raised',                          a:'John Mayer',                  s:75,  img:'John_Mayer_Born_and_Raised_Cover.jpeg'},
+  {r:43,  t:'Monster',                                  a:'R.E.M.',                      s:75,  img:'R.E.M._-_Monster.jpg'},
+  {r:44,  t:'OK Computer',                              a:'Radiohead',                   s:75,  img:'Radioheadokcomputer.png'},
+  {r:45,  t:'Battle Studies',                           a:'John Mayer',                  s:73,  img:'JohnMayerBattleStudies.jpg'},
+  {r:46,  t:'Document',                                 a:'R.E.M.',                      s:73,  img:'R.E.M._-_Document.jpg'},
+  {r:47,  t:'Out Of Time',                              a:'R.E.M.',                      s:73,  img:'R.E.M._-_Out_of_Time.jpg'},
+  {r:48,  t:'Unplugged',                                a:'Eric Clapton',                s:71,  img:'Eric_Clapton_Unplugged.jpg'},
+  {r:49,  t:'Melophobia',                               a:'Cage the Elephant',           s:70,  img:'Cage_the_Elephant_Melophobia.jpg'},
+  {r:50,  t:'Yeezus',                                   a:'Kanye West',                  s:70,  img:'Yeezus_album_cover.png'},
+  {r:51,  t:'The Dark Side of the Moon',                a:'Pink Floyd',                  s:70,  img:'The_Dark_Side_of_The_Moon.jpg'},
+  {r:52,  t:'In Rainbows',                              a:'Radiohead',                   s:70,  img:'Inrainbowscover.png'},
+  {r:53,  t:'Pinkerton',                                a:'Weezer',                      s:70,  img:'Pinkerton_cover.jpg'},
+  {r:54,  t:'Axis: Bold as Love',                       a:'The Jimi Hendrix Experience', s:69,  img:'Axiscover.jpg'},
+  {r:55,  t:'VULTURES 2',                               a:'¥$',                          s:69,  img:'¥$_-_Vultures_2.png'},
+  {r:56,  t:'Late Registration',                        a:'Kanye West',                  s:69,  img:'Late_registration_cd_cover.jpg'},
+  {r:57,  t:'To Pimp a Butterfly',                      a:'Kendrick Lamar',              s:69,  img:'Kendrick_Lamar_-_To_Pimp_a_Butterfly.png'},
+  {r:58,  t:'Rumours',                                  a:'Fleetwood Mac',               s:67,  img:'FMacRumours.PNG'},
+  {r:59,  t:'The Grateful Dead',                        a:'Grateful Dead',               s:67,  img:'Grateful_Dead_-_The_Grateful_Dead.jpg'},
+  {r:60,  t:'The Search for Everything',                a:'John Mayer',                  s:67,  img:'JohnMayerTSfE.jpg'},
+  {r:61,  t:'The Life of Pablo',                        a:'Kanye West',                  s:67,  img:'The_life_of_pablo_alternate.jpg'},
+  {r:62,  t:'good kid, m.A.A.d city',                   a:'Kendrick Lamar',              s:67,  img:'KendrickGKMC.jpg'},
+  {r:63,  t:'Collapse Into Now',                        a:'R.E.M.',                      s:67,  img:'R.E.M._-_Collapse_into_Now.jpg'},
+  {r:64,  t:'Minecraft – Volume Alpha',            a:'C418',                        s:64,  img:'Minecraft_–_Volume_Alpha.jpeg'},
+  {r:65,  t:'DAMN.',                                    a:'Kendrick Lamar',              s:64,  img:'Kendrick_Lamar_-_Damn.png'},
+  {r:66,  t:'How Will You Know if You Never Try',       a:'COIN',                        s:64,  img:'ab67616d0000b273e086dd341bb0c30d235f9cac.jpg'},
+  {r:67,  t:'JESUS IS KING',                            a:'Kanye West',                  s:64,  img:'Kanye_West_-_Jesus_Is_King.png'},
+  {r:68,  t:'In the Aeroplane Over the Sea',            a:'Neutral Milk Hotel',          s:64,  img:'In_the_aeroplane_over_the_sea_album_cover_copy.jpg'},
+  {r:69,  t:'Another One',                              a:'Mac Demarco',                 s:63,  img:'a1112985681_16.jpg'},
+  {r:70,  t:'Blind Melon',                              a:'Blind Melon',                 s:62,  img:'BlindMelonBlindMelon.jpg'},
+  {r:71,  t:'This Old Dog',                             a:'Mac Demarco',                 s:62,  img:'MacDeMarcoThisOldDog.png'},
+  {r:72,  t:'Nevermind',                                a:'Nirvana',                     s:62,  img:'NirvanaNevermindalbumcover.jpg'},
+  {r:73,  t:'Around the Sun',                           a:'R.E.M.',                      s:62,  img:'R.E.M._-_Around_the_Sun.jpg'},
+  {r:74,  t:'Live at the Olympia',                      a:'R.E.M.',                      s:62,  img:'R.E.M._-_Live_At_The_Olympia.jpg'},
+  {r:75,  t:"Couldn't Stand the Weather",               a:'Stevie Ray Vaughan',          s:62,  img:'SRVcouldntstandtheweather.jpg'},
+  {r:76,  t:'Parachutes',                               a:'Coldplay',                    s:60,  img:'Coldplay_-_Parachutes.png'},
+  {r:77,  t:'Illmatic',                                 a:'Nas',                         s:60,  img:'IllmaticNas.jpg'},
+  {r:78,  t:'Californication',                          a:'Red Hot Chili Peppers',       s:60,  img:'RedHotChiliPeppersCalifornication.jpg'},
+  {r:79,  t:'The College Dropout',                      a:'Kanye West',                  s:59,  img:'51gpDAoUaAL._UXNaN_FMjpg_QL85_.jpg'},
+  {r:80,  t:'Abbey Road',                               a:'The Beatles',                 s:59,  img:'Beatles_-_Abbey_Road.jpg'},
+  {r:81,  t:'Crash',                                    a:'Dave Matthews Band',          s:58,  img:'DMB_Crash.png'},
+  {r:82,  t:'808s & Heartbreak',                        a:'Kanye West',                  s:58,  img:'808s_&_Heartbreak.png'},
+  {r:83,  t:"(What's the Story) Morning Glory?",        a:'Oasis',                       s:58,  img:"Oasis_-_(What's_The_Story)_Morning_Glory_album_cover.jpg"},
+  {r:84,  t:'The Bends',                                a:'Radiohead',                   s:58,  img:'Radioheadthebends.png'},
+  {r:85,  t:'MTV Unplugged',                            a:'10,000 Maniacs',              s:57,  img:'10,000_Maniacs_-_MTV_Unplugged.jpg'},
+  {r:86,  t:'Layla and Other Assorted Love Songs',      a:'Derek & The Dominos',         s:57,  img:'LaylaCover.jpg'},
+  {r:87,  t:'Presence',                                 a:'Led Zeppelin',                s:57,  img:'Led_Zeppelin_-_Presence.jpg'},
+  {r:88,  t:'Electric Ladyland',                        a:'The Jimi Hendrix Experience', s:56,  img:'Jimi_Hendrix_-_Electric_Ladyland.jpg'},
+  {r:89,  t:'Grace',                                    a:'Jeff Buckley',                s:55,  img:'Jeff_Buckley_grace.jpg'},
+  {r:90,  t:'Salad Days',                               a:'Mac Demarco',                 s:55,  img:'MacDeMarcoSaladDays.png'},
+  {r:91,  t:'Accelerate',                               a:'R.E.M.',                      s:55,  img:'R.E.M._-_Accelerate.jpg'},
+  {r:92,  t:'Magical Mystery Tour',                     a:'The Beatles',                 s:55,  img:'Magical_Mystery_Tour_US_Cover.jpeg'},
+  {r:93,  t:'Brushfire Fairytales',                     a:'Jack Johnson',                s:54,  img:'BrushfireFairytales.jpg'},
+  {r:94,  t:'My Beautiful Dark Twisted Fantasy',        a:'Kanye West',                  s:54,  img:'MBDTF_ALT.jpg'},
+  {r:95,  t:'Blonde',                                   a:'Frank Ocean',                 s:53,  img:'Blonde_-_Frank_Ocean.jpeg'},
+  {r:96,  t:'UTOPIA',                                   a:'Travis Scott',                s:53,  img:'Travis_Scott_-_Utopia.png'},
+  {r:97,  t:'DIE FOR MY BITCH',                         a:'Baby Keem',                   s:50,  img:'Die_for_My_Bitch.jpg'},
+  {r:98,  t:'Still Bill',                               a:'Bill Withers',                s:50,  img:'Still_Bill.jpg'},
+  {r:99,  t:'Thank You Happy Birthday',                 a:'Cage the Elephant',           s:50,  img:'Cagetheelephant_thank-you-happy-birthday.jpg'},
+  {r:100, t:'From the Mars Hotel',                      a:'Grateful Dead',               s:50,  img:'Grateful_Dead_-_From_the_Mars_Hotel.jpg'},
+  {r:101, t:'KOD',                                      a:'J. Cole',                     s:50,  img:'JColeKOD.jpg'},
+  {r:102, t:'From Here to Now to You',                  a:'Jack Johnson',                s:50,  img:'Jack_Johnson_From_Here_to_Now_to_You.jpg'},
+  {r:103, t:'GNX',                                      a:'Kendrick Lamar',              s:50,  img:'Kendrick_Lamar_-_GNX.png'},
+  {r:104, t:'On Avery Island',                          a:'Neutral Milk Hotel',          s:50,  img:'On_avery_island_album_cover.jpg'},
+  {r:105, t:'Texas Flood',                              a:'Stevie Ray Vaughan',          s:50,  img:'StevieRayVaughanTexasFlood.jpg'},
+  {r:106, t:'Rubber Soul',                              a:'The Beatles',                 s:50,  img:'Rubber_Soul.png'},
+  {r:107, t:'All Things Must Pass',                     a:'George Harrison',             s:48,  img:'All_Things_Must_Pass_1970_cover.jpg'},
+  {r:108, t:'channel ORANGE',                           a:'Frank Ocean',                 s:47,  img:'Channel_ORANGE.jpg'},
+  {r:109, t:'Be',                                       a:'Common',                      s:45,  img:'Common_-_Be.png'},
+  {r:110, t:'We All Belong',                            a:'Dr. Dog',                     s:45,  img:'Weallbelonged.JPG'},
+  {r:111, t:'Paradise Valley',                          a:'John Mayer',                  s:45,  img:'Paradise_Valley_cover,_by_John_Mayer.jpg'},
+  {r:112, t:'Daybreaker',                               a:'Moon Taxi',                   s:45,  img:'Daybreaker_cover.jpg'},
+  {r:113, t:'Yankee Hotel Foxtrot',                     a:'Wilco',                       s:45,  img:'Yankee_Hotel_Foxtrot_(Front_Cover).png'},
+  {r:114, t:'Regardless',                               a:'Dr. So',                      s:43,  img:'1200x630bb.jpg'},
+  {r:115, t:'Blues for Allah',                          a:'Grateful Dead',               s:43,  img:'Grateful_Dead_-_Blues_for_Allah.jpg'},
+  {r:116, t:'KIDS SEE GHOSTS',                          a:'KIDS SEE GHOSTS',             s:43,  img:'Kids_See_Ghosts_Cover.png'},
+  {r:117, t:'HEROES & VILLAINS',                        a:'Metro Boomin',                s:43,  img:'Metro_Boomin_-_Heroes_&_Villains.png'},
+  {r:118, t:'Just As I Am',                             a:'Bill Withers',                s:42,  img:'Withers-justasiamcoverart.JPG'},
+  {r:119, t:'ASTROWORLD',                               a:'Travis Scott',                s:41,  img:'Travis_Scott_-_Astroworld.png'},
+  {r:120, t:'Good Thing',                               a:'Leon Bridges',                s:40,  img:'Good_Thing_by_Leon_Bridges.png'},
+  {r:121, t:'Ten',                                      a:'Pearl Jam',                   s:40,  img:'Pearl_Jam_Ten_Alt_Cover.jpg'},
+  {r:122, t:'Weezer (Green Album)',                     a:'Weezer',                      s:40,  img:'Weezer_-_Green_Album.png'},
+  {r:123, t:'Aoxomoxoa',                                a:'Grateful Dead',               s:38,  img:'Grateful_Dead_-_Aoxomoxoa.jpg'},
+  {r:124, t:'Because the Internet',                     a:'Childish Gambino',            s:37,  img:'Childish-gambino-because-the-internet.gif'},
+  {r:125, t:'Cage the Elephant',                        a:'Cage the Elephant',           s:36,  img:'Cage_the_elephant_album.jpg'},
+  {r:126, t:'"Awaken, My Love!"',                       a:'Childish Gambino',            s:36,  img:'Childish_Gambino_-_Awaken,_My_Love!.png'},
+  {r:127, t:'The Joshua Tree',                          a:'U2',                          s:36,  img:'The_Joshua_Tree.png'},
+  {r:128, t:'I LAY DOWN MY LIFE FOR YOU',               a:'JPEGMAFIA',                   s:36,  img:'JPEGMafia_-_I_Lay_Down_My_Life_for_You.png'},
+  {r:129, t:'Up',                                       a:'R.E.M.',                      s:36,  img:'R.E.M._-_Up.jpg'},
+  {r:130, t:'Yours, Dreamily',                          a:'The Arcs',                    s:36,  img:'The_Arcs_-_Yours_Dreamily.jpg'},
+  {r:131, t:'Watch the Throne',                         a:'JAY-Z & Kanye West',          s:33,  img:'Watch_The_Throne.jpg'},
+  {r:132, t:'Yourself or Someone Like You',             a:'Matchbox Twenty',             s:33,  img:'Matchbox_Twenty_-_Yourself_or_Someone_Like_You.jpg'},
+  {r:133, t:'The Beatles',                              a:'The Beatles',                 s:33,  img:'TheBeatles68LP.jpg'},
+  {r:134, t:'Mellon Collie and the Infinite Sadness',   a:'The Smashing Pumpkins',       s:32,  img:'The_Smashing_Pumpkins_-_Mellon_Collie_And_The_infinite_Sadness.jpg'},
+  {r:135, t:'Niandra LaDes and Usually Just a T-Shirt', a:'John Frusciante',             s:32,  img:null},
+  {r:136, t:'Mr. Morale & The Big Steppers',            a:'Kendrick Lamar',              s:32,  img:'Kendrick_Lamar_-_Mr._Morale_&_the_Big_Steppers.png'},
+  {r:137, t:'Midnight Marauders',                       a:'A Tribe Called Quest',        s:31,  img:'ATCQMidnightMarauders.jpg'},
+  {r:138, t:'Here Comes the Cowboy',                    a:'Mac Demarco',                 s:31,  img:'Mac-DeMarco-Here-Comes-The-Cowboy-00842812112638-e1557039292481.png'},
+  {r:139, t:'One Hot Minute',                           a:'Red Hot Chili Peppers',       s:31,  img:'Rhcp9.jpg'},
+  {r:140, t:"Sgt. Pepper's Lonely Hearts Club Band",    a:'The Beatles',                 s:31,  img:"Sgt._Pepper's_Lonely_Hearts_Club_Band.jpg"},
+  {r:141, t:'Minecraft – Volume Beta',             a:'C418',                        s:30,  img:null},
+  {r:142, t:'Abandoned Mansion',                        a:'Dr. Dog',                     s:30,  img:'Dr.DogAbandonedMansion.jpg'},
+  {r:143, t:'Toothbrush',                               a:'Dr. Dog',                     s:30,  img:'Toothbrush_cover.jpg'},
+  {r:144, t:'Public Life',                              a:'Joshua Lee Turner',           s:30,  img:null},
+  {r:145, t:'Loaded',                                   a:'The Velvet Underground',      s:30,  img:'Loadedalbum.jpg'},
+  {r:146, t:'In the Dark',                              a:'Grateful Dead',               s:29,  img:'Grateful_Dead_-_In_the_Dark.jpg'},
+  {r:147, t:'Before These Crowded Streets',             a:'Dave Matthews Band',          s:27,  img:'DMB_-_Before_These_Crowded_Streets.jpg'},
+  {r:148, t:'2',                                        a:'Mac Demarco',                 s:27,  img:'Macdemarco2cover.png'},
+  {r:149, t:"All That You Can't Leave Behind",          a:'U2',                          s:27,  img:'U2-all-that-you-cant-leave-behind.jpg'},
+  {r:150, t:'Girlfriend',                               a:'Matthew Sweet',               s:27,  img:'Girlfriendmatthewsweet.jpg'},
+  {r:151, t:'The Melodic Blue',                         a:'Baby Keem',                   s:26,  img:'TheMelodicBlueCover.jpeg'},
+  {r:152, t:'In Utero',                                 a:'Nirvana',                     s:25,  img:'In_Utero_(Nirvana)_album_cover.jpg'},
+  {r:153, t:'The Getaway',                              a:'Red Hot Chili Peppers',       s:23,  img:'Thegetawayalbum.jpg'},
+  {r:154, t:'Bambi',                                    a:'Hippo Campus',                s:20,  img:'Bambi_Hippo_Campus_album.jpg'},
+  {r:155, t:'Hoist',                                    a:'Phish',                       s:18,  img:'Hoist.gif'},
+  {r:156, t:'Farmhouse',                                a:'Phish',                       s:17,  img:'Farmhouse_(Phish_album)_coverart.jpg'},
+  {r:157, t:'Electriclarryland',                        a:'Butthole Surfers',            s:15,  img:'The_Butthole_Surfers_Electriclarryland.jpg'},
+  {r:158, t:'Billy Breathes',                           a:'Phish',                       s:15,  img:'Billybreathes.jpg'},
+  {r:159, t:"Mother's Milk",                            a:'Red Hot Chili Peppers',       s:15,  img:"Mother'sMilkAlbumcover.jpg"},
+  {r:160, t:'Foma',                                     a:'The Nixons',                  s:15,  img:'Foma_(The_Nixons_album_-_cover_art).jpg'},
+];
+
+// ── helpers ────────────────────────────────────────────────────────────────
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function thumb(album) {
+  const d = document.createElement('div');
+  d.className = 'at';
+  if (album.img) {
+    const i = document.createElement('img');
+    i.src = IMG + album.img;
+    i.alt = album.t;
+    i.loading = 'lazy';
+    d.appendChild(i);
+  } else {
+    const ph = document.createElement('div');
+    ph.className = 'at-ph';
+    ph.textContent = '?';
+    d.appendChild(ph);
+  }
+  const ov = document.createElement('div');
+  ov.className = 'at-ov';
+  ov.innerHTML = `<span class="ov-title">${esc(album.t)}</span><span class="ov-artist">${esc(album.a)}</span><span class="ov-score">${album.s}/100</span>`;
+  d.appendChild(ov);
+  return d;
+}
+
+// ── tier view ──────────────────────────────────────────────────────────────
+
+const tiers = [
+  { grade:'S', range:'100',   min:100, max:100 },
+  { grade:'A', range:'90–99', min:90,  max:99  },
+  { grade:'B', range:'80–89', min:80,  max:89  },
+  { grade:'C', range:'70–79', min:70,  max:79  },
+  { grade:'D', range:'60–69', min:60,  max:69  },
+  { grade:'E', range:'50–59', min:50,  max:59  },
+  { grade:'F', range:'< 50',  min:0,   max:49  },
+];
+
+(function buildTierView() {
+  const tv = document.getElementById('tier-view');
+  tiers.forEach(tier => {
+    const ta = albums.filter(a => a.s >= tier.min && a.s <= tier.max);
+    if (!ta.length) return;
+
+    const row = document.createElement('div');
+    row.className = 'tier-row';
+
+    const lbl = document.createElement('div');
+    lbl.className = 'tier-label';
+    lbl.innerHTML = `<span class="tier-grade">${tier.grade}</span><span class="tier-range">${tier.range}</span>`;
+
+    const box = document.createElement('div');
+    box.className = 'tier-albums';
+    ta.forEach(a => box.appendChild(thumb(a)));
+
+    row.appendChild(lbl);
+    row.appendChild(box);
+    tv.appendChild(row);
+  });
+})();
+
+// ── list view ──────────────────────────────────────────────────────────────
+
+(function buildListView() {
+  const lv = document.getElementById('list-view');
+  albums.forEach(album => {
+    const item = document.createElement('div');
+    item.className = 'li';
+
+    const artEl = album.img
+      ? `<img class="li-art" src="${IMG}${album.img}" alt="${esc(album.t)}" loading="lazy">`
+      : `<div class="li-art-ph"></div>`;
+
+    item.innerHTML = `
+      <span class="li-rank">#${album.r}</span>
+      ${artEl}
+      <div class="li-info">
+        <p class="li-title">${esc(album.t)}</p>
+        <p class="li-artist">${esc(album.a)}</p>
+      </div>
+      <div class="li-score-col">
+        <span class="li-score-num">${album.s}/100</span>
+        <div class="li-bar-bg"><div class="li-bar-fill" style="width:${album.s}%"></div></div>
+      </div>`;
+    lv.appendChild(item);
+  });
+})();
+
+// ── toggle ─────────────────────────────────────────────────────────────────
+
+function setView(v) {
+  document.getElementById('tier-view').style.display = v === 'tier' ? 'block' : 'none';
+  document.getElementById('list-view').style.display = v === 'list' ? 'block' : 'none';
+  document.getElementById('btn-tier').classList.toggle('active', v === 'tier');
+  document.getElementById('btn-list').classList.toggle('active', v === 'list');
+}
+</script>
+</body>
+</html>
